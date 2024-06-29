@@ -1,13 +1,15 @@
 import requests
-import time
 import json
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from flask import Flask, request, jsonify, render_template, redirect, url_for
 from apscheduler.schedulers.background import BackgroundScheduler
+import logging
 
-# binance price alert script
+# Configure logging
+logging.basicConfig(filename='app.log', level=logging.ERROR,
+                    format='%(asctime)s %(levelname)s: %(message)s')
 
 app = Flask(__name__)
 
@@ -34,9 +36,11 @@ def send_email(subject, body, to_email):
         server.sendmail(from_email, to_email, text)
         print(f"Email sent to {to_email}")
     except Exception as e:
-        print(f"Failed to send email: {e}")
-    # finally:
-    #     server.quit()
+        error_message = f"Failed to send email: {e}"
+        print(error_message)
+        logging.error(error_message)
+    finally:
+        server.quit()
 
 def send_notification_email(subject, body):
     to_email = "reshanpubudu5@gmail.com"
@@ -50,7 +54,9 @@ def get_coin_price(coin, against):
         data = response.json()
         return float(data['price'])
     except Exception as e:
-        print(f"Failed to check price({coin}/{against}): {e}")
+        error_message = f"Failed to check price({coin}/{against}): {e}"
+        print(error_message)
+        logging.error(error_message)
         return -1
 
 def process_coins():
@@ -85,7 +91,9 @@ def load_data():
         try:
             return json.load(file)
         except Exception as e:
-            print(f"Failed to read json file")
+            error_message = f"Failed to read json file: {e}"
+            print(error_message)
+            logging.error(error_message)
             return []
 
 # Save data to JSON file
@@ -99,7 +107,7 @@ def index():
     return render_template('index.html', data=data)
 
 @app.route('/data', methods=['GET'])
-def data():
+def get_data():
     return load_data()
 
 @app.route('/add', methods=['POST'])
@@ -140,16 +148,30 @@ def upload_data():
         else:
             return jsonify({"error": "No JSON data received"}), 400
     except Exception as e:
+        error_message = f"Failed to upload data: {e}"
+        print(error_message)
+        logging.error(error_message)
         return jsonify({"error": str(e)}), 500
 
 @app.route('/delete', methods=['POST'])
 def delete_record():
     data = load_data()
     record_id = int(request.form['id'])
-    data.pop(record_id - 1)
-    save_data(data)
+    if record_id >= 0 and record_id < len(data):
+        data.pop(record_id)
+        save_data(data)
     return redirect(url_for('index'))
 
+@app.route('/logs', methods=['GET'])
+def get_logs():
+    try:
+        with open('app.log', 'r') as file:
+            logs = file.read()
+        return logs, 200, {'Content-Type': 'text/plain; charset=utf-8'}
+    except FileNotFoundError:
+        return "Log file not found", 404
+    except Exception as e:
+        return f"Failed to read log file: {str(e)}", 500
 if __name__ == '__main__':
     scheduler = BackgroundScheduler()
     scheduler.add_job(func=process_coins, trigger="interval", seconds=900) # 15 min

@@ -3,12 +3,12 @@
         "against": "USDT",
         "coin": "BTC",
         "condition": "U",
-        "value": 6300033
+        "value": 63000333
     },
     {
         "against": "USDT",
         "coin": "BTC",
-        "condition": "D",
+        "condition": "U",
         "value": 60001
     },
     {
@@ -24,7 +24,7 @@
         "value": 0.19
     },
     {
-        "against": "USDT",
+        "against": "USDTT",
         "coin": "AI",
         "condition": "D",
         "value": 1000
@@ -46,5 +46,11 @@
         "coin": "XOX",
         "condition": "D",
         "value": 200
+    },
+    {
+        "against": "USDT",
+        "coin": "FFFF",
+        "condition": "U",
+        "value": 123123
     }
 ]

@@ -13,14 +13,14 @@ logging.basicConfig(filename='app.log', level=logging.ERROR,
 
 app = Flask(__name__)
 
-def send_email(subject, body, to_email):
+def send_email(subject, body, to_emails):
     from_email = 'adopt.me.vol@gmail.com'
     from_password = 'uaoh yckj xyrs jbzw'
 
     # Setup the MIME
     message = MIMEMultipart()
     message['From'] = from_email
-    message['To'] = to_email
+    message['To'] = ', '.join(to_emails)
     message['Subject'] = subject
 
     # Attach the body with the msg instance
@@ -33,8 +33,8 @@ def send_email(subject, body, to_email):
         server.starttls()  # Enable security
         server.login(from_email, from_password)  # Login with your email and password
         text = message.as_string()
-        server.sendmail(from_email, to_email, text)
-        print(f"Email sent to {to_email}")
+        server.sendmail(from_email, to_emails, text)
+        print(f"Email sent to {to_emails}")
     except Exception as e:
         error_message = f"Failed to send email: {e}"
         print(error_message)
@@ -43,8 +43,8 @@ def send_email(subject, body, to_email):
         server.quit()
 
 def send_notification_email(subject, body):
-    to_email = "reshanpubudu5@gmail.com"
-    send_email(subject, body, to_email)
+    to_emails = ["reshanpubudu5@gmail.com", "reshanpubuducommon@gmail.com"]
+    send_email(subject, body, to_emails)
 
 def get_coin_price(coin, against):
     try:
@@ -172,6 +172,7 @@ def get_logs():
         return "Log file not found", 404
     except Exception as e:
         return f"Failed to read log file: {str(e)}", 500
+
 if __name__ == '__main__':
     scheduler = BackgroundScheduler()
     scheduler.add_job(func=process_coins, trigger="interval", seconds=900) # 15 min

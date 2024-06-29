@@ -1,56 +1,110 @@
 [
     {
+        "coin": "FTM",
         "against": "USDT",
-        "coin": "BTC",
         "condition": "U",
-        "value": 63000333
+        "value": 0.75
     },
     {
+        "coin": "VET",
         "against": "USDT",
-        "coin": "BTC",
         "condition": "U",
-        "value": 60001
+        "value": 0.75
     },
     {
+        "coin": "BAKE",
         "against": "USDT",
-        "coin": "ETH",
         "condition": "U",
-        "value": 303330
+        "value": 1.4
     },
     {
+        "coin": "BSW",
         "against": "USDT",
+        "condition": "U",
+        "value": 1.75
+    },
+    {
+        "coin": "ZIL",
+        "against": "USDT",
+        "condition": "U",
+        "value": 0.06
+    },
+    {
+        "coin": "MTL",
+        "against": "USDT",
+        "condition": "U",
+        "value": 2.7
+    },
+    {
+        "coin": "ALPINE",
+        "against": "USDT",
+        "condition": "U",
+        "value": 1.85
+    },
+    {
+        "coin": "GMT",
+        "against": "USDT",
+        "condition": "U",
+        "value": 0.25
+    },
+    {
+        "coin": "FTT",
+        "against": "USDT",
+        "condition": "U",
+        "value": 5.1
+    },
+    {
+        "coin": "VGX",
+        "against": "USDT",
+        "condition": "U",
+        "value": 0.55
+    },
+    {
+        "coin": "HIGH",
+        "against": "USDT",
+        "condition": "U",
+        "value": 4.6
+    },
+    {
         "coin": "OAX",
+        "against": "USDT",
         "condition": "U",
-        "value": 0.19
+        "value": 0.2
     },
     {
-        "against": "USDTT",
-        "coin": "AI",
+        "coin": "PEPE",
+        "against": "USDT",
+        "condition": "U",
+        "value": 1.2e-05
+    },
+    {
+        "coin": "ASTR",
+        "against": "USDT",
+        "condition": "U",
+        "value": 0.21
+    },
+    {
+        "coin": "ETH",
+        "against": "USDT",
+        "condition": "U",
+        "value": 3500.0
+    },
+    {
+        "coin": "ETH",
+        "against": "USDT",
         "condition": "D",
-        "value": 1000
+        "value": 3000.0
     },
     {
+        "coin": "BTC",
         "against": "USDT",
-        "coin": "dsfd",
-        "condition": "U",
-        "value": 23343244
-    },
-    {
-        "against": "USDT",
-        "coin": "AI",
-        "condition": "U",
-        "value": 23423434
-    },
-    {
-        "against": "USDT",
-        "coin": "XOX",
         "condition": "D",
-        "value": 200
+        "value": 60000.0
     },
     {
+        "coin": "BTC",
         "against": "USDT",
-        "coin": "FFFF",
         "condition": "U",
-        "value": 123123
+        "value": 63000.0
     }
 ]

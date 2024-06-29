@@ -66,7 +66,6 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         var table = new Tabulator("#coin-table", {
-            height: 400,
             layout: "fitColumns",
             columns: [
                 {title: "ID", field: "id", formatter: "rownum"},
@@ -84,7 +83,7 @@
                         deleteBtn.onclick = function () {
                             var row = cell.getRow();
                             disableDeleteButtons(true); // Disable all delete buttons
-                            $.post('/delete', {id: row.getIndex()}, function () {
+                            $.post('/delete', {id: row.getIndex() - 1}, function () {
                                 loadData();
                                 disableDeleteButtons(false); // Re-enable all delete buttons after delete is complete
                             });

@@ -22,7 +22,7 @@
 
 
 ### create session
-* `tmux new -s my_session`
+* `tmux new -s binance`
 
 * `cd /opt/jenkins/bi/`
 * `source myenv/bin/activate`
@@ -34,8 +34,8 @@ Press Ctrl-b followed by d.
 * `tmux ls`
 
 Reattach to the tmux session:
-* `tmux attach-session -t my_session`
+* `tmux attach-session -t binance`
 
-* `tmux kill-session -t my_session`
+* `tmux kill-session -t binance`
 
 

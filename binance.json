@@ -1,0 +1,50 @@
+[
+    {
+        "against": "USDT",
+        "coin": "BTC",
+        "condition": "U",
+        "value": 6300033
+    },
+    {
+        "against": "USDT",
+        "coin": "BTC",
+        "condition": "D",
+        "value": 60001
+    },
+    {
+        "against": "USDT",
+        "coin": "ETH",
+        "condition": "U",
+        "value": 303330
+    },
+    {
+        "against": "USDT",
+        "coin": "OAX",
+        "condition": "U",
+        "value": 0.19
+    },
+    {
+        "against": "USDT",
+        "coin": "AI",
+        "condition": "D",
+        "value": 1000
+    },
+    {
+        "against": "USDT",
+        "coin": "dsfd",
+        "condition": "U",
+        "value": 23343244
+    },
+    {
+        "against": "USDT",
+        "coin": "AI",
+        "condition": "U",
+        "value": 23423434
+    },
+    {
+        "against": "USDT",
+        "coin": "XOX",
+        "condition": "D",
+        "value": 200
+    }
+]

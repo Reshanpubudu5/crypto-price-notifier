@@ -8,14 +8,14 @@ from apscheduler.schedulers.background import BackgroundScheduler
 import logging
 
 # Configure logging
-logging.basicConfig(filename='app.log', level=logging.ERROR,
+logging.basicConfig(filename='../app.log', level=logging.ERROR,
                     format='%(asctime)s %(levelname)s: %(message)s')
 
 app = Flask(__name__)
 
 def send_email(subject, body, to_emails):
-    from_email = 'adopt.me.vol@gmail.com'
-    from_password = 'uaoh yckj xyrs jbzw'
+    from_email = 'your@gmail.com'
+    from_password = 'your password'
 
     # Setup the MIME
     message = MIMEMultipart()
@@ -29,7 +29,7 @@ def send_email(subject, body, to_emails):
     # Create SMTP session for sending the mail
     try:
         # Use Gmail's SMTP server
-        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server = smtplib.SMTP('smtp.xxxx.com', 587)
         server.starttls()  # Enable security
         server.login(from_email, from_password)  # Login with your email and password
         text = message.as_string()
@@ -43,7 +43,7 @@ def send_email(subject, body, to_emails):
         server.quit()
 
 def send_notification_email(subject, body):
-    to_emails = ["reshanpubudu5@gmail.com", "reshanpubuducommon@gmail.com"]
+    to_emails = ["youremail@gmail.com"]
     send_email(subject, body, to_emails)
 
 def get_coin_price(coin, against):
@@ -165,7 +165,7 @@ def delete_record():
 @app.route('/logs', methods=['GET'])
 def get_logs():
     try:
-        with open('app.log', 'r') as file:
+        with open('../app.log', 'r') as file:
             logs = file.read()
         return logs, 200, {'Content-Type': 'text/plain; charset=utf-8'}
     except FileNotFoundError:
@@ -175,7 +175,7 @@ def get_logs():
 
 if __name__ == '__main__':
     scheduler = BackgroundScheduler()
-    scheduler.add_job(func=process_coins, trigger="interval", seconds=900) # 15 min
+    scheduler.add_job(func=process_coins, trigger="interval", seconds=1200) # 15 min
     scheduler.start()
 
     try:

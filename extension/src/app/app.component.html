@@ -1,0 +1,44 @@
+<div class="container mt-3 m-2 w-100">
+  <h1 class="mb-4">Coin Tracker</h1>
+
+  <div class="card mb-4">
+    <div class="card-header">Add Record</div>
+    <div class="card-body w-100">
+      <form (ngSubmit)="addRecord()">
+        <div class="row align-items-end">
+          <div class="form-group col-md-3">
+            <label for="coin">Coin</label>
+            <input type="text" class="form-control" name="coin" id="coin" required [(ngModel)]="newRecord.coin">
+          </div>
+          <div class="form-group col-md-2">
+            <label for="against">Against</label>
+            <input type="text" class="form-control" name="against" id="against" required value="USDT" [(ngModel)]="newRecord.against">
+          </div>
+          <div class="form-group col-md-2">
+            <label for="condition">Condition</label>
+            <select class="form-control" name="condition" id="condition" required [(ngModel)]="newRecord.condition">
+              <option value="U">UP</option>
+              <option value="D">DOWN</option>
+            </select>
+          </div>
+          <div class="form-group col-md-3">
+            <label for="value">Value</label>
+            <input type="number" class="form-control" step="0.0000001" name="value" id="value" required [(ngModel)]="newRecord.value">
+          </div>
+          <div class="form-group col-md-2">
+            <button type="submit" class="btn btn-primary btn-block mt-3">Add</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <h2 class="mb-2">Current Records</h2>
+  <div class="d-grid gap-2 d-md-block">
+    <button id="refresh-table" class="btn btn-secondary m-2" (click)="refreshTable()">Refresh Table</button>
+    <button id="download-data" class="btn btn-primary m-2" (click)="exportData()">Export Data</button>
+    <input type="file" id="upload-file" accept=".json" class="d-none m-2" (change)="importData($event)">
+    <label for="upload-file" class="btn btn-success m-2">Import Data</label>
+  </div>
+  <app-coin-list-table #coinListTableComponent></app-coin-list-table>
+</div>

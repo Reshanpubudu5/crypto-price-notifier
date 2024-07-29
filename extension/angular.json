@@ -38,9 +38,10 @@
               {
                 "glob": "tabulator.min.css",
                 "input": "./node_modules/tabulator-tables/dist/css/",
-                "output": "/assets/css/"
+                "output": "./assets/css/"
               },
-              "src/manifest.json"
+              "src/manifest.json",
+              "src/assets"
             ],
             "styles": [
               "src/styles.scss"

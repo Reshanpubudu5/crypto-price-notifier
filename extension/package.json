@@ -4,14 +4,16 @@
   "scripts": {
     "ng": "ng",
     "start": "node ./node_modules/@angular/cli/bin/ng serve",
-    "build": "node ./node_modules/@angular/cli/bin/ng build",
+    "build": "node ./node_modules/@angular/cli/bin/ng build && tsc src/background.ts --outDir dist/extension/browser",
     "newComp": "node ./node_modules/@angular/cli/bin/ng g c coin-list-table",
     "newServ": "node ./node_modules/@angular/cli/bin/ng g s chrome-storage",
     "watch": "ng build --watch --configuration development",
     "instllll0": "npm install --force",
     "instllll2": "npm uninstall @angular/material @angular/cdk @angular/animations",
     "instllll3": "npm i bootstrap tabulator-tables --save-dev @types/tabulator-tables",
+    "instllll6": "npm i bootstrap --save-dev @types/bootstrap",
     "instllll4": "npm install @types/chrome --save-dev",
+    "instllll5": "npm install tabulator-tables",
     "addd": "node ./node_modules/@angular/cli/bin/ng add @angular/material",
     "test": "ng test"
   },
@@ -32,6 +34,7 @@
     "@angular-devkit/build-angular": "^18.1.0",
     "@angular/cli": "^18.1.0",
     "@angular/compiler-cli": "^18.1.0",
+    "@types/bootstrap": "^5.2.10",
     "@types/chrome": "^0.0.268",
     "@types/jasmine": "~5.1.0",
     "@types/tabulator-tables": "^6.2.2",
@@ -42,7 +45,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
-    "tabulator-tables": "^6.2.1",
+    "tabulator-tables": "^6.2.5",
     "typescript": "~5.5.2"
   }
 }

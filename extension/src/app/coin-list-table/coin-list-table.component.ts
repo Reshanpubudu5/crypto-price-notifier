@@ -1,7 +1,8 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {TabulatorFull as Tabulator} from 'tabulator-tables';
 import {ChromeStorageService} from "../service/chrome-storage.service";
 import {COIN_LIST} from "../util";
+import {CoinDataDto} from "../dto/CoinDataDto";
 
 @Component({
   selector: 'app-coin-list-table',
@@ -11,132 +12,8 @@ import {COIN_LIST} from "../util";
   styleUrl: './coin-list-table.component.scss'
 })
 export class CoinListTableComponent implements OnInit {
-  // @Input() tableData: any[] = [];
-  // @Input() columnNames: any[] = [];
-  // @Input() height: string = '311px';
-  // list properties you want to set per implementation here...
-
-  // tab = document.createElement('div');
 
   constructor(protected storageService: ChromeStorageService) {
-    // this.tableData = [
-    //   {
-    //     'against': 'USDT',
-    //     'coin': 'FTM',
-    //     'condition': 'U',
-    //     'value': 0.75
-    //   },
-    //   {
-    //     'against': 'USDT',
-    //     'coin': 'VET',
-    //     'condition': 'U',
-    //     'value': 0.75
-    //   },
-    //   {
-    //     'against': 'USDT',
-    //     'coin': 'BAKE',
-    //     'condition': 'U',
-    //     'value': 1.4
-    //   },
-    //   {
-    //     'against': 'USDT',
-    //     'coin': 'BSW',
-    //     'condition': 'U',
-    //     'value': 1.75
-    //   },
-    //   {
-    //     'against': 'USDT',
-    //     'coin': 'ZIL',
-    //     'condition': 'U',
-    //     'value': 0.06
-    //   },
-    //   {
-    //     'against': 'USDT',
-    //     'coin': 'MTL',
-    //     'condition': 'U',
-    //     'value': 2.7
-    //   },
-    //   {
-    //     'against': 'USDT',
-    //     'coin': 'ALPINE',
-    //     'condition': 'U',
-    //     'value': 1.85
-    //   },
-    //   {
-    //     'against': 'USDT',
-    //     'coin': 'GMT',
-    //     'condition': 'U',
-    //     'value': 0.25
-    //   },
-    //   {
-    //     'against': 'USDT',
-    //     'coin': 'FTT',
-    //     'condition': 'U',
-    //     'value': 5.1
-    //   },
-    //   {
-    //     'against': 'USDT',
-    //     'coin': 'VGX',
-    //     'condition': 'U',
-    //     'value': 0.55
-    //   },
-    //   {
-    //     'against': 'USDT',
-    //     'coin': 'HIGH',
-    //     'condition': 'U',
-    //     'value': 4.6
-    //   },
-    //   {
-    //     'against': 'USDT',
-    //     'coin': 'OAX',
-    //     'condition': 'U',
-    //     'value': 0.2
-    //   },
-    //   {
-    //     'against': 'USDT',
-    //     'coin': 'PEPE',
-    //     'condition': 'U',
-    //     'value': 1.2e-05
-    //   },
-    //   {
-    //     'against': 'USDT',
-    //     'coin': 'ASTR',
-    //     'condition': 'U',
-    //     'value': 0.21
-    //   },
-    //   {
-    //     'against': 'USDT',
-    //     'coin': 'ETH',
-    //     'condition': 'U',
-    //     'value': 3500.0
-    //   },
-    //   {
-    //     'against': 'USDT',
-    //     'coin': 'ETH',
-    //     'condition': 'D',
-    //     'value': 3000.0
-    //   },
-    //   {
-    //     'against': 'USDT',
-    //     'coin': 'BTC',
-    //     'condition': 'D',
-    //     'value': 60000.0
-    //   },
-    //   {
-    //     'against': 'USDT',
-    //     'coin': 'BTC',
-    //     'condition': 'U',
-    //     'value': 63000.0
-    //   },
-    //   {
-    //     'against': 'USDT',
-    //     'coin': 'FTT',
-    //     'condition': 'U',
-    //     'value': 1.5
-    //   }
-    // ]
-
-    // storageService.set('coinList', this.tableData);
   }
 
   ngOnInit(): void {
@@ -145,11 +22,11 @@ export class CoinListTableComponent implements OnInit {
 
   loadData(): void {
     this.storageService.get(COIN_LIST).then(data => {
-        this.drawTable(data);
+      this.drawTable(data);
     });
   }
 
-  private drawTable(data: any[]): void {
+  private drawTable(dataList: CoinDataDto[]): void {
     const table = new Tabulator('#coin-table', {
       layout: 'fitColumns',
       columns: [
@@ -170,29 +47,42 @@ export class CoinListTableComponent implements OnInit {
             deleteBtn.innerText = 'Delete';
             deleteBtn.classList.add('btn', 'btn-danger', 'btn-sm');
             deleteBtn.onclick = () => {
-              const row = cell.getRow();
-              // this.disableDeleteButtons(true);
-              // $.post('/delete', {id: row.getIndex() - 1}, () => {
-              //   this.loadData(table);
-              //   this.disableDeleteButtons(false);
-              // });
+              const row = cell.getRow().getData();
+
+              const index = dataList.findIndex(data => data.guid === row.guid);
+              if (index !== -1) {
+                dataList.splice(index, 1);
+
+                // Update the storage with the modified dataList
+                this.storageService.set(COIN_LIST, dataList).then(() => {
+                  // Redraw the table with the updated dataList
+                  table.setData(dataList).then();
+                });
+              }
             };
             return deleteBtn;
           }
         }
       ],
-      // cellEdited: (cell: any) => {
-      //   const row = cell.getRow().getData();
-        // $.post('/update', {
-        //   id: row.id - 1,
-        //   coin: row.coin,
-        //   against: row.against,
-        //   condition: row.condition,
-        //   value: row.value
-        // });
-      // },
-      data: data
+      data: dataList
     });
+
+    table.on('cellEdited', (cell: any) => {
+      const row = cell.getRow().getData();
+      const coinData = dataList.find(data => data.guid === row.guid);
+
+      if (coinData) {
+        coinData.coin = row.coin;
+        coinData.against = row.against;
+        coinData.condition = row.condition;
+        coinData.value = row.value;
+
+        // Update the storage with the modified dataList
+        this.storageService.set(COIN_LIST, dataList).then(() => {
+          table.setData(dataList).then();
+        });
+      }
+    })
   }
 
 }

@@ -1,4 +1,4 @@
-# Binance Price Notifier Chrome Extension (B-Coin Tracker)
+# Binance Price Notifier Chrome Extension (Crypto Price Notifier)
 
 ![Logo](readme%2Flogo.png)
 
@@ -35,8 +35,8 @@ Install the extension directly from the Chrome Web Store:
 - Node.js v20 or higher
 1. Clone the repository:
     ```bash
-    git clone https://github.com/yourusername/<binance-price-notifier>.git
-    cd <binance-price-notifier>
+    git clone git remote add origin https://github.com/Reshanpubudu5/crypto-price-notifier.git
+    cd crypto-price-notifier
     ```
 
 2. Install dependencies:

@@ -1,4 +1,4 @@
-# Binance Price Alerts Script
+# Cryptocurrency Price Alerts Script
 
 ------------------------
 This Python script monitors cryptocurrency prices on Binance and sends email notifications when the prices meet specified conditions.
@@ -18,8 +18,8 @@ It uses Flask for the web interface, APScheduler for periodic task scheduling, a
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/yourusername/<repository>.git
-    cd <repository>
+    git clone git remote add origin https://github.com/Reshanpubudu5/crypto-price-notifier.git
+    cd crypto-price-notifier
     ```
 
 2. Install the required packages:

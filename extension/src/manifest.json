@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "B-Coin Tracker",
+  "name": "Crypto Price Notifier",
   "description": "Track Binance Coin Value Changes",
   "version": "1.0",
   "action": {

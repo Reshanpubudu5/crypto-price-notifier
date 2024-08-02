@@ -1,41 +1,78 @@
-# Script for Binance Price Alerts
+# Binance Price Alerts Script
 
 ------------------------
+This Python script monitors cryptocurrency prices on Binance and sends email notifications when the prices meet specified conditions.
+It uses Flask for the web interface, APScheduler for periodic task scheduling, and Gmail for sending email notifications.
 
-* ssh your_username@your_server_ip
+### Features
+* Monitor cryptocurrency prices on Binance
+* Send email notifications based on price conditions
+* Web interface to manage monitored coins
+* Log errors and events
 
-### install python
-* `sudo apt update`
-* `sudo apt install python3 python3-venv python3-pip -y`
+-----------------------------
 
-### install tmux 
-* `sudo apt update`
-* `sudo apt install tmux`  # For Debian-based systems
-* `sudo yum install tmux`  # For Red Hat-based systems
+# Installation Guide
 
-### setup environment 
-* `python3 -m venv myenv`
-* `source myenv/bin/activate`
-* `pip install requests`
-* `pip install flask`
-* `pip install apscheduler`
+**Pre-requisite:** Python should be installed on your server
 
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/yourusername/<repository>.git
+    cd <repository>
+    ```
 
-### create session
-* `tmux new -s binance`
+2. Install the required packages:
+    ```bash
+    pip install flask requests apscheduler
+    ```
 
-* `cd /opt/jenkins/bi/`
-* `source myenv/bin/activate`
-* `python binance.py`
+3. Create a JSON file `binance.json` to store the coin data with the following content:
+    ```json
+    []
+    ```
 
-Detach from the tmux session:
-Press Ctrl-b followed by d.
+4. Update the email credentials in the `send_email` function in [app.py](app.py):
+    ```python
+    from_email = 'your-email@gmail.com'
+    from_password = 'your-email-password'
+    ```
 
-* `tmux ls`
+5. Ensure logging configuration in the script is correct (optional):
+    ```python
+    logging.basicConfig(filename='../app.log', level=logging.ERROR, format='%(asctime)s %(levelname)s: %(message)s')
+    ```
 
-Reattach to the tmux session:
-* `tmux attach-session -t binance`
+6. Run the Flask application:
+    ```bash
+    python app.py
+    ```
 
-* `tmux kill-session -t binance`
+7. Access the web interface: Open your browser and go to `http://127.0.0.1:5000`
 
+*Note: These steps may vary depending on your Python version and other conditions.*
 
+-----------
+
+# Usage
+
+* Add, update, or delete monitored coins via the web interface.
+* Bulk upload data via the `/upload` endpoint:
+    ```bash
+    curl -X POST -H "Content-Type: application/json" -d @data.json http://127.0.0.1:5000/upload
+    ```
+* View logs: Access `http://127.0.0.1:5000/logs`
+
+### API Endpoints
+
+* **GET** `/data`: Get all monitored coins
+* **POST** `/add`: Add a new coin to monitor
+* **POST** `/update`: Update an existing coin
+* **POST** `/upload`: Bulk upload coin data
+* **POST** `/delete`: Delete a coin
+* **GET** `/logs`: View application logs
+
+### Configuration
+
+* **Email Configuration**: Update the email credentials in the `send_email` function.
+* **Scheduler Interval**: Modify the interval for the scheduler in the `__main__` section.

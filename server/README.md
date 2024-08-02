@@ -19,7 +19,7 @@ It uses Flask for the web interface, APScheduler for periodic task scheduling, a
 1. Clone the repository:
     ```bash
     git clone git remote add origin https://github.com/Reshanpubudu5/crypto-price-notifier.git
-    cd crypto-price-notifier
+    cd crypto-price-notifier/server
     ```
 
 2. Install the required packages:

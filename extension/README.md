@@ -36,7 +36,7 @@ Install the extension directly from the Chrome Web Store:
 1. Clone the repository:
     ```bash
     git clone git remote add origin https://github.com/Reshanpubudu5/crypto-price-notifier.git
-    cd crypto-price-notifier
+    cd crypto-price-notifier/extension
     ```
 
 2. Install dependencies:

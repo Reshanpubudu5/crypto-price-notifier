@@ -3,9 +3,8 @@ const ENABLE_CHECK_PRICE = 'ENABLE_CHECK_PRICE';
 const ENABLE_NOTIFICATION = 'ENABLE_NOTIFICATION';
 
 chrome.runtime.onInstalled.addListener(() => {
-  console.log('Extension installed');
   showNotification('Extension installed', 'The Binance Price Notifier extension has been installed.');
-  chrome.alarms.create('priceCheckAlarm', {periodInMinutes: 1 / 2}).then();
+  chrome.alarms.create('priceCheckAlarm', {periodInMinutes: 1}).then(); // TODO
 });
 
 chrome.alarms.onAlarm.addListener((alarm): void => {
@@ -25,8 +24,7 @@ async function checkPricesAndNotify() {
       const priceList: [{ symbol: string; price: string }] = await response.json();
 
       await getCoinList().then(coinList => {
-
-        coinList?.forEach((coin: { against: string; coin: string; condition: string; value: number }) => {
+        coinList?.forEach((coin: { against: string; coin: string; condition: string; value: number; alert: boolean }) => {
           const priceDetail = priceList.find(details => details.symbol === (coin.coin + coin.against))
 
           if (priceDetail) {
@@ -35,27 +33,31 @@ async function checkPricesAndNotify() {
             // Calculate the price difference and percentage change
             const priceDiff = currCoinPrice - coin.value;
             const percentageChange = (priceDiff / coin.value) * 100;
+            let subject, message = null;
 
             // Determine if a notification should be shown
-            if (coin.condition === 'U' || coin.condition === 'UP') {
-              if (currCoinPrice >= coin.value) {
-                const subject = `Binance Alert-${coin.coin} (UP by ${percentageChange.toFixed(2)}%)`;
-                const message = `The current ${coin.coin}/${coin.against} price is: ${currCoinPrice} (UP by ${percentageChange.toFixed(2)}%)`;
-                showNotification(subject, message);
-                setCountOnLogo(subject, message);
-              }
+            if ((coin.condition === 'U' || coin.condition === 'UP') && currCoinPrice >= coin.value) {
+              subject = `Binance Alert-${coin.coin} (UP by ${percentageChange.toFixed(2)}%)`;
+              message = `The current ${coin.coin}/${coin.against} price is: ${currCoinPrice} (UP by ${percentageChange.toFixed(2)}%)`;
+              coin.alert = true;
+            } else if ((coin.condition === 'D' || coin.condition === 'DOWN') && currCoinPrice <= coin.value) {
+              subject = `Binance Alert-${coin.coin} (DOWN by ${percentageChange.toFixed(2)}%)`;
+              message = `The current ${coin.coin}/${coin.against} price is: ${currCoinPrice} (DOWN by ${percentageChange.toFixed(2)}%)`;
+              coin.alert = true;
+            } else {
+              coin.alert = false;
             }
 
-            if (coin.condition === 'D' || coin.condition === 'DOWN') {
-              if (currCoinPrice <= coin.value) {
-                const subject = `Binance Alert-${coin.coin} (DOWN by ${percentageChange.toFixed(2)}%)`;
-                const message = `The current ${coin.coin}/${coin.against} price is: ${currCoinPrice} (DOWN by ${percentageChange.toFixed(2)}%)`;
-                showNotification(subject, message);
-                setCountOnLogo(subject, message);
-              }
+            setCountOnLogo(coinList?.filter(coin => coin.alert).length);
+
+            if(subject && message) {
+              showNotification(subject, message);
             }
           }
-        })
+        });
+
+        chrome.storage.sync.set({[COIN_LIST]: coinList}, () => {});
+
       })
     } catch (error) {
       console.error('Error fetching price data:', error);
@@ -71,7 +73,7 @@ function showNotification(title: string, message: string) {
 
     chrome.notifications.create({
       type: 'basic',
-      iconUrl: chrome.runtime.getURL('assets/images/favicon-16.png'), // Correctly reference the icon path
+      iconUrl: chrome.runtime.getURL('assets/images/logo-50x50.png'), // Correctly reference the icon path
       title: title,
       message: message,
       priority: 2
@@ -79,11 +81,13 @@ function showNotification(title: string, message: string) {
   });
 }
 
-function setCountOnLogo(title: string, message: string) {
-  chrome.action.setBadgeText({text: `${Math.random()}`}).then();
+function setCountOnLogo(alertCount: number): void {
+    if (alertCount > 0) {
+      chrome.action.setBadgeText({text: `${alertCount}`}).then();
+    }
 }
 
-async function getCoinList(): Promise<[{ against: string; coin: string; condition: string; value: number }]> {
+async function getCoinList(): Promise<[{ against: string; coin: string; condition: string; value: number; alert: boolean }]> {
   return await getData(COIN_LIST);
 }
 

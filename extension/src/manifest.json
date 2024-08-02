@@ -2,9 +2,16 @@
   "manifest_version": 3,
   "name": "B-Coin Tracker",
   "description": "Track Binance Coin Value Changes",
-  "version": "1.0.0",
+  "version": "1.0",
   "action": {
     "default_popup": "index.html"
+  },
+  "icons": {
+    "16": "assets/images/logo-50x50.png",
+    "32": "assets/images/logo-50x50.png",
+    "48": "assets/images/logo-50x50.png",
+    "128": "assets/images/logo-131x128.png",
+    "192": "assets/images/logo-192x187.png"
   },
   "permissions": [
     "alarms",

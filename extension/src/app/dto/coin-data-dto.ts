@@ -5,5 +5,5 @@ export class CoinDataDto {
   against?: string;
   condition?: string;
   value?: number;
-
+  alert?: boolean;
 }

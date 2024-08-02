@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {TabulatorFull as Tabulator} from 'tabulator-tables';
 import {ChromeStorageService} from "../service/chrome-storage.service";
 import {COIN_LIST} from "../util";
-import {CoinDataDto} from "../dto/CoinDataDto";
+import {CoinDataDto} from "../dto/coin-data-dto";
 
 @Component({
   selector: 'app-coin-list-table',
@@ -43,10 +43,12 @@ export class CoinListTableComponent implements OnInit {
         {
           title: 'Actions', field: 'actions',
           formatter: (cell: any, formatterParams: any, onRendered: any) => {
-            const deleteBtn = document.createElement('button');
-            deleteBtn.innerText = 'Delete';
-            deleteBtn.classList.add('btn', 'btn-danger', 'btn-sm');
-            deleteBtn.onclick = () => {
+            const deleteIcon = document.createElement('img');
+            deleteIcon.src = 'assets/images/delete.svg';
+            deleteIcon.style.cursor = 'pointer';
+            deleteIcon.style.width = '20px'; // Adjust size as needed
+            deleteIcon.style.height = '20px'; // Adjust size as needed
+            deleteIcon.onclick = () => {
               const row = cell.getRow().getData();
 
               const index = dataList.findIndex(data => data.guid === row.guid);
@@ -60,7 +62,7 @@ export class CoinListTableComponent implements OnInit {
                 });
               }
             };
-            return deleteBtn;
+            return deleteIcon;
           }
         }
       ],

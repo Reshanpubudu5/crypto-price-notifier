@@ -4,7 +4,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {CoinListTableComponent} from "./coin-list-table/coin-list-table.component";
 import {ChromeStorageService} from "./service/chrome-storage.service";
 import {COIN_LIST, ENABLE_CHECK_PRICE, ENABLE_NOTIFICATION} from "./util";
-import {CoinDataDto} from "./dto/CoinDataDto";
+import {CoinDataDto} from "./dto/coin-data-dto";
 
 @Component({
   selector: 'app-root',
@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
   @ViewChild("coinListTableComponent")
   coinListTableComponent: CoinListTableComponent = {} as CoinListTableComponent
 
-  newRecord: CoinDataDto = {guid: this.generateUniqueId, coin: '', against: 'USDT', condition: 'U', value: 0};
+  newRecord: CoinDataDto = {guid: this.generateUniqueId, coin: '', against: 'USDT', condition: 'U', value: 0, alert: false};
 
   enabledCheckPrices: boolean = true;
   enabledDesktopNotifications: boolean = true;
@@ -43,12 +43,18 @@ export class AppComponent implements OnInit {
   }
 
   addRecord() {
+    if (!this.newRecord || !this.newRecord.coin || this.newRecord.coin.length < 1
+      || !this.newRecord.against || this.newRecord.against.length < 1
+      || !this.newRecord.value) {
+      return;
+    }
+
     this.storageService.get(COIN_LIST).then(coinList => {
       coinList = coinList ?? [];
       coinList.push({...this.newRecord})
 
       this.storageService.set(COIN_LIST, coinList).then(() => {
-        this.newRecord = {guid: this.generateUniqueId, coin: '', against: 'USDT', condition: 'U', value: 0};
+        this.newRecord = {guid: this.generateUniqueId, coin: '', against: 'USDT', condition: 'U', value: 0, alert: false};
         this.coinListTableComponent.loadData();
       })
     })
@@ -86,7 +92,8 @@ export class AppComponent implements OnInit {
               coin: item.coin,
               against: item.against,
               condition: item.condition,
-              value: item.value
+              value: item.value,
+              alert: false
             }));
             this.storageService.set(COIN_LIST, coinList).then(() => this.refreshTable);
           } else {

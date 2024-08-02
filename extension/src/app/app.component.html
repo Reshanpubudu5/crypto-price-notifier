@@ -1,60 +1,63 @@
-<div class="container mt-3 m-2 w-100">
+<div class="container mt-3 m-2">
 
   <!-- Toggle buttons with info icons -->
-  <div class="d-flex justify-content-end mb-4">
-    <h1 class="mb-4">B-Coin Tracker</h1>
-    <div class="form-check form-switch mr-3 m-1" data-toggle="tooltip" data-placement="top" title="Enable/Disable price checks (stop API call and it will totally stop checking price)">
-      <input class="form-check-input" type="checkbox" role="switch" id="toggleCheckPrices" [(ngModel)]="enabledCheckPrices" (change)="toggleCheckPrices()">
-      <label class="form-check-label" for="toggleCheckPrices">
-        <img src="assets/images/infor-i.svg" alt="info" class="info-icon mb-1">
-      </label>
+  <div class="d-flex justify-content-center">
+    <h2 class="mb-4">B-Coin Tracker</h2>
+    <div class="form-check form-switch mr-3 m-1" data-toggle="tooltip" data-placement="top"
+         title="Enable/Disable price checks (stop API call and it will totally stop checking price)">
+      <input class="form-check-input" type="checkbox" role="switch" id="toggleCheckPrices"
+             [(ngModel)]="enabledCheckPrices" (change)="toggleCheckPrices()">
     </div>
-    <div class="form-check form-switch m-1" data-toggle="tooltip" data-placement="top" title="Enable/Disable chrome desktop notifications">
-      <input class="form-check-input" type="checkbox" role="switch" id="toggleSendNotifications" [(ngModel)]="enabledDesktopNotifications" (change)="toggleSendNotifications()">
-      <label class="form-check-label" for="toggleSendNotifications">
-        <img src="assets/images/infor-i.svg" alt="info" class="info-icon mb-1">
-      </label>
+    <div class="form-check form-switch m-1" data-toggle="tooltip" data-placement="top"
+         title="Enable/Disable chrome desktop notifications">
+      <input class="form-check-input" type="checkbox" role="switch" id="toggleSendNotifications"
+             [(ngModel)]="enabledDesktopNotifications" (change)="toggleSendNotifications()">
     </div>
   </div>
 
+  <!-- Add new coin details record section -->
   <div class="card mb-4">
     <div class="card-header">Add Record</div>
-    <div class="card-body w-100">
+    <div class="card-body pt-1 pb-2">
       <form (ngSubmit)="addRecord()">
-        <div class="row align-items-end">
-          <div class="form-group col-md-3">
+        <div class="row">
+          <div class="form-group col col-sm-3 px-0 ps-1">
             <label for="coin">Coin</label>
-            <input type="text" class="form-control" name="coin" id="coin" required [(ngModel)]="newRecord.coin">
+            <input type="text" class="form-control form-control-sm" name="coin" id="coin" required [(ngModel)]="newRecord.coin">
           </div>
-          <div class="form-group col-md-2">
+          <div class="form-group col col-sm-3 px-0 ps-1">
             <label for="against">Against</label>
-            <input type="text" class="form-control" name="against" id="against" required value="USDT" [(ngModel)]="newRecord.against">
+            <input type="text" class="form-control form-control-sm" name="against" id="against" required value="USDT"
+                   [(ngModel)]="newRecord.against">
           </div>
-          <div class="form-group col-md-2">
+          <div class="form-group col col-sm-2 px-0 ps-1">
             <label for="condition">Condition</label>
-            <select class="form-control" name="condition" id="condition" required [(ngModel)]="newRecord.condition">
+            <select class="form-control form-control-sm" name="condition" id="condition" required [(ngModel)]="newRecord.condition">
               <option value="U">UP</option>
               <option value="D">DOWN</option>
             </select>
           </div>
-          <div class="form-group col-md-3">
+          <div class="form-group col col-sm-3 px-0 ps-1">
             <label for="value">Value</label>
-            <input type="number" class="form-control" step="0.0000001" name="value" id="value" required [(ngModel)]="newRecord.value">
+            <input type="number" class="form-control form-control-sm" step="0.0000001" name="value" id="value" required
+                   [(ngModel)]="newRecord.value">
           </div>
-          <div class="form-group col-md-2">
-            <button type="submit" class="btn btn-primary btn-block mt-3">Add</button>
+          <div class="form-group col col-sm-1 px-0 ps-1">
+            <button type="submit" class="btn btn-sm btn-primary btn-block mt-4">Add</button>
           </div>
         </div>
       </form>
     </div>
   </div>
 
-  <h2 class="mb-2">Current Records</h2>
-  <div class="d-grid gap-2 d-md-block">
-    <button id="refresh-table" class="btn btn-secondary m-2" (click)="refreshTable()">Refresh Table</button>
-    <button id="download-data" class="btn btn-primary m-2" (click)="exportData()">Export Data</button>
+  <div>
+    <h4 class="mt-2 mb-1">Current Records</h4>
+    <button id="refresh-table" class="btn btn-sm btn-secondary m-2" (click)="refreshTable()">Refresh</button>
+    <button id="download-data" class="btn btn-sm btn-primary m-2" (click)="exportData()" tooltip="XXXXX">Export Data</button>
     <input type="file" id="upload-file" accept=".json" class="d-none m-2" (change)="importData($event)">
-    <label for="upload-file" class="btn btn-success m-2">Import Data</label>
+    <label for="upload-file" class="btn btn-sm btn-success m-2">Import Data</label>
   </div>
+
   <app-coin-list-table #coinListTableComponent></app-coin-list-table>
+
 </div>

@@ -42,6 +42,19 @@ Install the extension directly from the Chrome Web Store:
 
 [Binance Price Notifier - Chrome Web Store](https://chrome.google.com/webstore/detail/<extension-id>)
 
+### ➔ From GitHub
+
+1. Download the zipped extension folder from the repository:
+   [Download Binance Price Notifier Extension](https://github.com/Reshanpubudu5/crypto-price-notifier/releases/download/v1.1/crypto-price-notifier-v1.1.zip)
+
+2. Extract the downloaded zip file.
+
+3. Load the extension in Chrome:
+
+- Open Chrome and go to `chrome://extensions/`
+- Enable "Developer mode" (top right)
+- Click "Load unpacked" and select the extracted folder from the downloaded zip file
+
 ### ➔ Developer Installation
 
 #### Prerequisites

@@ -93,6 +93,7 @@ export class AppComponent implements OnInit {
               against: item.against,
               condition: item.condition,
               value: item.value,
+              currentValue: null,
               alert: false
             }));
             this.storageService.set(COIN_LIST, coinList).then(() => this.refreshTable);

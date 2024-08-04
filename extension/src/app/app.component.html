@@ -44,11 +44,11 @@
     <button id="download-data" class="btn btn-sm btn-primary m-2" title="Download data as file with JSON format"
             (click)="exportData()">Export
     </button>
-    <input type="file" id="upload-file" accept=".json" class="d-none">
+    <input type="file" id="upload-file" accept=".json" class="d-none" (change)="importData($event)">
     <label for="upload-file" class="btn btn-sm btn-success"
            title="Upload data from .json file. Content must be in the format: { guid?: string; coin?: string; against?: string; condition?: string; value?: number; alert?: boolean; }">Import</label>
 
-    <div class="ml-3 d-flex">
+    <div class="m-3 d-flex">
       <div class="form-check form-switch mr-3" data-toggle="tooltip" data-placement="top"
            title="Enable/Disable price checks (stop API call and it will totally stop checking price)">
         <input class="form-check-input" type="checkbox" role="switch" id="toggleCheckPrices"

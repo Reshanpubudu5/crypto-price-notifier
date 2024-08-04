@@ -24,11 +24,19 @@ async function checkPricesAndNotify() {
       const priceList: [{ symbol: string; price: string }] = await response.json();
 
       await getCoinList().then(coinList => {
-        coinList?.forEach((coin: { against: string; coin: string; condition: string; value: number; alert: boolean }) => {
+        coinList?.forEach((coin: {
+          against: string;
+          coin: string;
+          condition: string;
+          value: number;
+          currentValue: number;
+          alert: boolean
+        }) => {
           const priceDetail = priceList.find(details => details.symbol === (coin.coin + coin.against))
 
           if (priceDetail) {
             const currCoinPrice = parseFloat(priceDetail.price);
+            coin.currentValue = currCoinPrice;
 
             // Calculate the price difference and percentage change
             const priceDiff = currCoinPrice - coin.value;
@@ -87,7 +95,14 @@ function setCountOnLogo(alertCount: number): void {
     }
 }
 
-async function getCoinList(): Promise<[{ against: string; coin: string; condition: string; value: number; alert: boolean }]> {
+async function getCoinList(): Promise<[{
+  against: string;
+  coin: string;
+  condition: string;
+  value: number;
+  currentValue: number;
+  alert: boolean
+}]> {
   return await getData(COIN_LIST);
 }
 

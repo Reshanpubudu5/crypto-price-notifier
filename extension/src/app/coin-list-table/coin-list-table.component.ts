@@ -30,18 +30,30 @@ export class CoinListTableComponent implements OnInit {
     const table = new Tabulator('#coin-table', {
       layout: 'fitColumns',
       columns: [
-        {title: 'ID', field: 'id', formatter: 'rownum'},
-        {title: 'Coin', field: 'coin', editor: 'input'},
-        {title: 'Against', field: 'against', editor: 'input'},
+        {title: '', field: 'id', formatter: 'rownum', maxWidth: 20},
         {
-          title: 'Condition', field: 'condition', editor: 'list',
+          title: 'Coin', field: 'coin', editor: 'input',
+          formatter: (cell: any) => {
+            const row = cell.getRow().getData();
+
+            if (!row.currentValue) {
+              return cell.getValue();
+            }
+            return `${cell.getValue()} (${row.currentValue})`;
+          },
+          minWidth: 130,
+          maxWidth: 400
+        },
+        {title: 'Pair', field: 'against', editor: 'input'},
+        {
+          title: 'Alert Type', field: 'condition', editor: 'list',
           editorParams: {values: {'U': 'UP', 'D': 'DOWN'}},
           formatter: 'lookup',
           formatterParams: {'U': 'UP', 'D': 'DOWN'}
         },
         {title: 'Value', field: 'value', editor: 'number', editorParams: {step: 0.0000001}},
         {
-          title: 'Actions', field: 'actions',
+          title: '', field: 'actions', maxWidth: 20,
           formatter: (cell: any, formatterParams: any, onRendered: any) => {
             const deleteIcon = document.createElement('img');
             deleteIcon.src = 'assets/images/delete.svg';
@@ -66,6 +78,11 @@ export class CoinListTableComponent implements OnInit {
           }
         }
       ],
+      rowFormatter: (row) => {
+        if (row.getData()['alert']) {
+          row.getElement().style.backgroundColor = 'rgba(18,192,18,0.61)';
+        }
+      },
       data: dataList
     });
 

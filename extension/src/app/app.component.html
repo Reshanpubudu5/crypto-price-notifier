@@ -1,45 +1,32 @@
 <div class="container mt-3 m-2">
 
-  <!-- Toggle buttons with info icons -->
-  <div class="d-flex justify-content-end">
-    <div class="form-check form-switch mr-3 m-1" data-toggle="tooltip" data-placement="top"
-         title="Enable/Disable price checks (stop API call and it will totally stop checking price)">
-      <input class="form-check-input" type="checkbox" role="switch" id="toggleCheckPrices"
-             [(ngModel)]="enabledCheckPrices" (change)="toggleCheckPrices()">
-    </div>
-    <div class="form-check form-switch m-1" data-toggle="tooltip" data-placement="top"
-         title="Enable/Disable chrome desktop notifications">
-      <input class="form-check-input" type="checkbox" role="switch" id="toggleSendNotifications"
-             [(ngModel)]="enabledDesktopNotifications" (change)="toggleSendNotifications()">
-    </div>
-  </div>
-
   <!-- Add new coin details record section -->
-  <div class="card mb-4">
-    <div class="card-header">Add Record</div>
+  <div class="card">
+    <div class="card-header">Add New Record</div>
     <div class="card-body pt-1 pb-2">
       <form (ngSubmit)="addRecord()">
         <div class="row">
           <div class="form-group col col-sm-3 px-0 ps-1">
             <label for="coin">Coin</label>
-            <input type="text" class="form-control form-control-sm" name="coin" id="coin" required [(ngModel)]="newRecord.coin">
+            <input type="text" class="form-control form-control-sm" name="coin" id="coin" required
+                   [(ngModel)]="newRecord.coin" placeholder="e.g., BTC">
           </div>
           <div class="form-group col col-sm-3 px-0 ps-1">
-            <label for="against">Against</label>
+            <label for="against">Trading Pair</label>
             <input type="text" class="form-control form-control-sm" name="against" id="against" required value="USDT"
-                   [(ngModel)]="newRecord.against">
+                   [(ngModel)]="newRecord.against" placeholder="e.g., USDT">
           </div>
           <div class="form-group col col-sm-2 px-0 ps-1">
-            <label for="condition">Condition</label>
+            <label for="condition">Alert Type</label>
             <select class="form-control form-control-sm" name="condition" id="condition" required [(ngModel)]="newRecord.condition">
               <option value="U">UP</option>
               <option value="D">DOWN</option>
             </select>
           </div>
           <div class="form-group col col-sm-3 px-0 ps-1">
-            <label for="value">Value</label>
+            <label for="value">Alert Value</label>
             <input type="number" class="form-control form-control-sm" step="0.0000001" name="value" id="value" required
-                   [(ngModel)]="newRecord.value">
+                   [(ngModel)]="newRecord.value" placeholder="e.g., 50000">
           </div>
           <div class="form-group col col-sm-1 px-0 ps-1">
             <button type="submit" class="btn btn-sm btn-primary btn-block mt-4">Add</button>
@@ -49,12 +36,30 @@
     </div>
   </div>
 
-  <div>
-    <h4 class="mt-2 mb-1">Current Records</h4>
-    <button id="refresh-table" class="btn btn-sm btn-secondary m-2" (click)="refreshTable()">Refresh</button>
-    <button id="download-data" class="btn btn-sm btn-primary m-2" (click)="exportData()" tooltip="XXXXX">Export Data</button>
-    <input type="file" id="upload-file" accept=".json" class="d-none m-2" (change)="importData($event)">
-    <label for="upload-file" class="btn btn-sm btn-success m-2">Import Data</label>
+  <h5 class="m-4 mb-0">Current Records</h5>
+  <div class="d-flex align-items-center mb-1">
+    <button id="refresh-table" class="btn btn-sm btn-secondary" (click)="refreshTable()" title="Refresh table data">
+      Refresh
+    </button>
+    <button id="download-data" class="btn btn-sm btn-primary m-2" title="Download data as file with JSON format"
+            (click)="exportData()">Export
+    </button>
+    <input type="file" id="upload-file" accept=".json" class="d-none">
+    <label for="upload-file" class="btn btn-sm btn-success"
+           title="Upload data from .json file. Content must be in the format: { guid?: string; coin?: string; against?: string; condition?: string; value?: number; alert?: boolean; }">Import</label>
+
+    <div class="ml-3 d-flex">
+      <div class="form-check form-switch mr-3" data-toggle="tooltip" data-placement="top"
+           title="Enable/Disable price checks (stop API call and it will totally stop checking price)">
+        <input class="form-check-input" type="checkbox" role="switch" id="toggleCheckPrices"
+               [(ngModel)]="enabledCheckPrices" (change)="toggleCheckPrices()">
+      </div>
+      <div class="form-check form-switch" data-toggle="tooltip" data-placement="top"
+           title="Enable/Disable chrome desktop notifications">
+        <input class="form-check-input" type="checkbox" role="switch" id="toggleSendNotifications"
+               [(ngModel)]="enabledDesktopNotifications" (change)="toggleSendNotifications()">
+      </div>
+    </div>
   </div>
 
   <app-coin-list-table #coinListTableComponent></app-coin-list-table>

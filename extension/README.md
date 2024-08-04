@@ -8,6 +8,8 @@ Binance Price Notifier is a Chrome extension that allows users to set up price a
 
 ## Features
 
+### Version 1.0
+
 - **Setup Price Alerts**: Users can set up alerts for specific cryptocurrencies against other coins(default USDT) (e.g., BTC/USDT).
 - **Periodic Price Check**: Prices are checked every 5 minutes using Binance's ticker API.
 - **Chrome Notifications**: Get notified when the price meets the specified conditions (up or down).
@@ -18,7 +20,19 @@ Binance Price Notifier is a Chrome extension that allows users to set up price a
 - **Delete Alerts**: Users can delete alerts using the delete icon in the table.
 - **Data Management**: Users can refresh the table, download data as a JSON file, and upload data from a JSON file.
 
-![1.png](readme%2F1.png)
+### Version 1.1
+
+#### Updates
+
+- **Label Changes**: Improved labels for better clarity and user understanding.
+- **Layout Changes**: Enhanced layout for a more user-friendly and visually appealing interface.
+- **Reached Row Highlight**: Highlight rows in the table when price conditions are met for easier visibility.
+
+#### New Features
+
+- **Add Current Price Along with Coin**: Display the current price of the coin alongside the coin name for quick reference.
+
+![1.png](readme%2Fv1.1.png)
 
 ## Installation
 

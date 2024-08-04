@@ -4,7 +4,7 @@ const ENABLE_NOTIFICATION = 'ENABLE_NOTIFICATION';
 
 chrome.runtime.onInstalled.addListener(() => {
   showNotification('Extension installed', 'The Binance Price Notifier extension has been installed.');
-  chrome.alarms.create('priceCheckAlarm', {periodInMinutes: 5}).then(); // TODO
+  chrome.alarms.create('priceCheckAlarm', {periodInMinutes: 5}).then();
 });
 
 chrome.alarms.onAlarm.addListener((alarm): void => {

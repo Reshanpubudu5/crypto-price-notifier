@@ -1,7 +1,7 @@
 <div class="container mt-3 m-2">
 
   <!-- Add new coin details record section -->
-  <div class="card">
+  <div class="card mb-2">
     <div class="card-header">Add New Record</div>
     <div class="card-body pt-1 pb-2">
       <form (ngSubmit)="addRecord()">
@@ -36,7 +36,9 @@
     </div>
   </div>
 
-  <h5 class="m-4 mb-0">Current Records</h5>
+  <h5 class="m-2 mb-0" style="display: inline;">Current Records</h5>
+  <span *ngIf="lastFetchDateTimeFormatted" class="last-synced">(Last synced at {{ lastFetchDateTimeFormatted }})</span>
+
   <div class="d-flex align-items-center mb-1">
     <button id="refresh-table" class="btn btn-sm btn-secondary" (click)="refreshTable()" title="Refresh table data">
       Refresh

@@ -31,6 +31,7 @@ Binance Price Notifier is a Chrome extension that allows users to set up price a
 #### New Features
 
 - **Add Current Price Along with Coin**: Display the current price of the coin alongside the coin name for quick reference.
+- **Add Last Price Synced Date Time**: Display the last price list checked date time.
 
 ![1.png](readme%2Fv1.1.png)
 

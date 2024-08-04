@@ -1,6 +1,7 @@
 const COIN_LIST = 'COIN_LIST'; // same as src/app/util.ts
 const ENABLE_CHECK_PRICE = 'ENABLE_CHECK_PRICE';
 const ENABLE_NOTIFICATION = 'ENABLE_NOTIFICATION';
+const LAST_FETCH = 'LAST_FETCH';
 
 chrome.runtime.onInstalled.addListener(() => {
   showNotification('Extension installed', 'The Binance Price Notifier extension has been installed.');
@@ -15,13 +16,14 @@ chrome.alarms.onAlarm.addListener((alarm): void => {
 
 async function checkPricesAndNotify() {
   getData(ENABLE_CHECK_PRICE).then(async enableCheckPrice => {
-    if (!enableCheckPrice) {
+    if (enableCheckPrice === false) {
       return;
     }
 
     try {
       const response = await fetch('https://api.binance.com/api/v3/ticker/price');
       const priceList: [{ symbol: string; price: string }] = await response.json();
+      updateLastFetchDateTime();
 
       await getCoinList().then(coinList => {
         coinList?.forEach((coin: {
@@ -73,9 +75,14 @@ async function checkPricesAndNotify() {
   });
 }
 
+function updateLastFetchDateTime() {
+  chrome.storage.sync.set({[LAST_FETCH]: new Date().toISOString()}, () => {
+  });
+}
+
 function showNotification(title: string, message: string) {
   getData(ENABLE_NOTIFICATION).then(async enableNotification => {
-    if (!enableNotification) {
+    if (enableNotification === false) {
       return;
     }
 

@@ -3,13 +3,14 @@ import {RouterOutlet} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {CoinListTableComponent} from "./coin-list-table/coin-list-table.component";
 import {ChromeStorageService} from "./service/chrome-storage.service";
-import {COIN_LIST, ENABLE_CHECK_PRICE, ENABLE_NOTIFICATION} from "./util";
+import {COIN_LIST, ENABLE_CHECK_PRICE, ENABLE_NOTIFICATION, LAST_FETCH} from "./util";
 import {CoinDataDto} from "./dto/coin-data-dto";
+import {formatDate, NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, ReactiveFormsModule, FormsModule, CoinListTableComponent],
+  imports: [RouterOutlet, ReactiveFormsModule, FormsModule, CoinListTableComponent, NgIf],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -22,6 +23,8 @@ export class AppComponent implements OnInit {
 
   enabledCheckPrices: boolean = true;
   enabledDesktopNotifications: boolean = true;
+  lastFetchDateTime: Date | null = null;
+  lastFetchDateTimeFormatted: string = '';
 
   constructor(protected storageService: ChromeStorageService) {
   }
@@ -40,6 +43,10 @@ export class AppComponent implements OnInit {
     this.storageService.get(ENABLE_NOTIFICATION)?.then(value => {
       this.enabledDesktopNotifications = value ?? true;
     });
+
+    this.getLastFetchDateTime();
+    // fetch last synced date time in every 1min
+    setInterval(this.getLastFetchDateTime.bind(this), 1000 * 60);
   }
 
   addRecord() {
@@ -116,4 +123,34 @@ export class AppComponent implements OnInit {
     this.storageService.set(ENABLE_NOTIFICATION, this.enabledDesktopNotifications)?.then();
   }
 
+  getLastFetchDateTime(): void {
+    this.storageService.get(LAST_FETCH).then(value => {
+      this.lastFetchDateTime = value
+      this.lastFetchDateTimeFormatted = this.formatDateTime(value);
+    })
+  }
+
+  formatDateTime(date: Date): string {
+    if (!date) {
+      return '';
+    }
+
+    try {
+      const fetchDate = new Date(date);
+      if (isNaN(fetchDate.getTime())) {
+        return '';
+      }
+
+      const now = new Date();
+      const isSameDay = now.toDateString() === fetchDate.toDateString();
+
+      if (isSameDay) {
+        return formatDate(fetchDate, 'hh:mm a', 'en-US');
+      } else {
+        return formatDate(fetchDate, 'dd MMM yyyy hh:mm a', 'en-US');
+      }
+    } catch (error) {
+      return '';
+    }
+  }
 }

@@ -1,16 +1,15 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {RouterOutlet} from '@angular/router';
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
+import {FormsModule} from "@angular/forms";
 import {CoinListTableComponent} from "./coin-list-table/coin-list-table.component";
 import {ChromeStorageService} from "./service/chrome-storage.service";
 import {COIN_LIST, ENABLE_CHECK_PRICE, ENABLE_NOTIFICATION, LAST_FETCH} from "./util";
 import {CoinDataDto} from "./dto/coin-data-dto";
-import {formatDate, NgIf} from "@angular/common";
+import {formatDate} from "@angular/common";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, ReactiveFormsModule, FormsModule, CoinListTableComponent, NgIf],
+  imports: [FormsModule, CoinListTableComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -26,7 +25,10 @@ export class AppComponent implements OnInit {
   lastFetchDateTime: Date | null = null;
   lastFetchDateTimeFormatted: string = '';
 
-  constructor(protected storageService: ChromeStorageService) {
+  constructor(
+    protected storageService: ChromeStorageService,
+    private cdr: ChangeDetectorRef,
+  ) {
   }
 
   get generateUniqueId(): string {
@@ -38,10 +40,12 @@ export class AppComponent implements OnInit {
     // Initialize switch statuses based on stored values
     this.storageService.get(ENABLE_CHECK_PRICE)?.then(value => {
       this.enabledCheckPrices = value ?? true;
+      this.cdr.markForCheck();
     });
 
     this.storageService.get(ENABLE_NOTIFICATION)?.then(value => {
       this.enabledDesktopNotifications = value ?? true;
+      this.cdr.markForCheck();
     });
 
     this.getLastFetchDateTime();
@@ -63,6 +67,7 @@ export class AppComponent implements OnInit {
       this.storageService.set(COIN_LIST, coinList).then(() => {
         this.newRecord = {guid: this.generateUniqueId, coin: '', against: 'USDT', condition: 'U', value: 0, alert: false};
         this.coinListTableComponent.loadData();
+        this.cdr.markForCheck();
       })
     })
   }
@@ -103,7 +108,10 @@ export class AppComponent implements OnInit {
               currentValue: null,
               alert: false
             }));
-            this.storageService.set(COIN_LIST, coinList).then(() => this.refreshTable);
+            this.storageService.set(COIN_LIST, coinList).then(() => {
+              this.refreshTable();
+              this.cdr.markForCheck();
+            });
           } else {
             alert('Invalid JSON format');
           }

@@ -1,8 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {TabulatorFull as Tabulator} from 'tabulator-tables';
+import type {TabulatorFull} from 'tabulator-tables';
 import {ChromeStorageService} from "../service/chrome-storage.service";
 import {COIN_LIST} from "../util";
 import {CoinDataDto} from "../dto/coin-data-dto";
+
+type TabulatorConstructor = typeof TabulatorFull;
 
 @Component({
   selector: 'app-coin-list-table',
@@ -22,11 +24,16 @@ export class CoinListTableComponent implements OnInit {
 
   loadData(): void {
     this.storageService.get(COIN_LIST).then(data => {
-      this.drawTable(data);
+      void this.drawTable(data ?? []);
     });
   }
 
-  private drawTable(dataList: CoinDataDto[]): void {
+  private async drawTable(dataList: CoinDataDto[]): Promise<void> {
+    const { TabulatorFull: Tabulator } = await import('tabulator-tables');
+    this.initTable(Tabulator, dataList);
+  }
+
+  private initTable(Tabulator: TabulatorConstructor, dataList: CoinDataDto[]): void {
     const table = new Tabulator('#coin-table', {
       layout: 'fitColumns',
       columns: [
@@ -54,36 +61,38 @@ export class CoinListTableComponent implements OnInit {
         {title: 'Value', field: 'value', editor: 'number', editorParams: {step: 0.0000001}},
         {
           title: '', field: 'actions', maxWidth: 20,
-          formatter: (cell: any, formatterParams: any, onRendered: any) => {
+          formatter: () => {
             const deleteIcon = document.createElement('img');
             deleteIcon.src = 'assets/images/delete.svg';
-            deleteIcon.style.cursor = 'pointer';
-            deleteIcon.style.width = '20px'; // Adjust size as needed
-            deleteIcon.style.height = '20px'; // Adjust size as needed
-            deleteIcon.onclick = () => {
-              const row = cell.getRow().getData();
-
-              const index = dataList.findIndex(data => data.guid === row.guid);
-              if (index !== -1) {
-                dataList.splice(index, 1);
-
-                // Update the storage with the modified dataList
-                this.storageService.set(COIN_LIST, dataList).then(() => {
-                  // Redraw the table with the updated dataList
-                  table.setData(dataList).then();
-                });
-              }
-            };
+            deleteIcon.className = 'delete-row-icon';
+            deleteIcon.alt = 'Delete row';
             return deleteIcon;
           }
         }
       ],
       rowFormatter: (row) => {
         if (row.getData()['alert']) {
-          row.getElement().style.backgroundColor = 'rgba(18,192,18,0.61)';
+          row.getElement().classList.add('alert-row');
         }
       },
       data: dataList
+    });
+
+    table.on('cellClick', (_event, cell) => {
+      if (cell.getColumn().getField() !== 'actions') {
+        return;
+      }
+
+      const row = cell.getRow().getData();
+      const index = dataList.findIndex(data => data.guid === row['guid']);
+      if (index === -1) {
+        return;
+      }
+
+      dataList.splice(index, 1);
+      this.storageService.set(COIN_LIST, dataList).then(() => {
+        table.setData(dataList).then();
+      });
     });
 
     table.on('cellEdited', (cell: any) => {
@@ -96,7 +105,6 @@ export class CoinListTableComponent implements OnInit {
         coinData.condition = row.condition;
         coinData.value = row.value;
 
-        // Update the storage with the modified dataList
         this.storageService.set(COIN_LIST, dataList).then(() => {
           table.setData(dataList).then();
         });

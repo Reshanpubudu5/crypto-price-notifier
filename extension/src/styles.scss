@@ -1,14 +1,226 @@
-/* You can add global styles to this file, and also import other style files */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
-//html, body { height: 100%; }
-//body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-//
+html,
+body {
+  min-width: 720px;
+}
 
-//@import "./node_modules/bootstrap/dist/css/bootstrap.min.css";
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  color: #212529;
+}
 
-//.container {
-//  min-width: 45rem;
-//}
-//.card {
-//  margin-bottom: 20px;
-//}
+.container {
+  padding-right: 6px;
+  padding-left: 6px;
+}
+
+.m-2 { margin: 0.5rem !important; }
+.m-3 { margin: 1rem !important; }
+.mb-0 { margin-bottom: 0 !important; }
+.mb-1 { margin-bottom: 0.25rem !important; }
+.mb-2 { margin-bottom: 0.5rem !important; }
+.mt-3 { margin-top: 1rem !important; }
+.mt-4 { margin-top: 1.5rem !important; }
+.mr-3 { margin-right: 1rem !important; }
+.ps-1 { padding-left: 0.25rem !important; }
+.px-0 { padding-left: 0 !important; padding-right: 0 !important; }
+.pt-1 { padding-top: 0.25rem !important; }
+.pb-2 { padding-bottom: 0.5rem !important; }
+
+.d-flex { display: flex !important; }
+.d-none { display: none !important; }
+.align-items-center { align-items: center !important; }
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -4px;
+  margin-left: -4px;
+}
+
+.col {
+  flex: 1 0 0%;
+  padding: 0 4px;
+}
+
+.col-sm-1 { flex: 0 0 8.333%; max-width: 8.333%; padding: 0 4px; }
+.col-sm-2 { flex: 0 0 16.666%; max-width: 16.666%; padding: 0 4px; }
+.col-sm-3 { flex: 0 0 25%; max-width: 25%; padding: 0 4px; }
+
+.card {
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.375rem;
+  background: #fff;
+}
+
+.card-header {
+  padding: 0.5rem 1rem;
+  background: rgba(0, 0, 0, 0.03);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+  font-weight: 500;
+}
+
+.card-body {
+  padding: 1rem;
+}
+
+.add-record-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.65rem 0.75rem;
+}
+
+.add-record-field {
+  flex: 1 1 7rem;
+  min-width: 0;
+}
+
+.add-record-field--narrow {
+  flex: 0 1 6.5rem;
+}
+
+.add-record-field--value {
+  flex: 1.15 1 7rem;
+}
+
+.add-record-field label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.add-record-actions {
+  flex: 0 0 auto;
+  margin-left: 0.25rem;
+  padding-bottom: 1px;
+}
+
+.add-record-actions .btn {
+  min-width: 4.5rem;
+  white-space: nowrap;
+}
+
+.form-group {
+  margin-bottom: 0.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 0.875rem;
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #212529;
+  background: #fff;
+  border: 1px solid #ced4da;
+  border-radius: 0.375rem;
+}
+
+.form-control-sm {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #86b7fe;
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  text-align: center;
+  border: 1px solid transparent;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn-sm {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+}
+
+.btn-block {
+  display: block;
+  width: 100%;
+}
+
+.btn-primary {
+  color: #fff;
+  background: #0d6efd;
+  border-color: #0d6efd;
+}
+
+.btn-primary:hover {
+  background: #0b5ed7;
+}
+
+.btn-secondary {
+  color: #fff;
+  background: #6c757d;
+  border-color: #6c757d;
+}
+
+.btn-secondary:hover {
+  background: #5c636a;
+}
+
+.btn-success {
+  color: #fff;
+  background: #198754;
+  border-color: #198754;
+}
+
+.btn-success:hover {
+  background: #157347;
+}
+
+.form-check {
+  display: flex;
+  align-items: center;
+  min-height: 1.5rem;
+}
+
+.form-check-input {
+  cursor: pointer;
+}
+
+.form-switch .form-check-input {
+  width: 2.5em;
+  height: 1.25em;
+}
+
+h5 {
+  margin-top: 0;
+  font-size: 1.25rem;
+}
+
+.delete-row-icon {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+}
+
+.tabulator-row.alert-row {
+  background-color: rgba(18, 192, 18, 0.61) !important;
+}

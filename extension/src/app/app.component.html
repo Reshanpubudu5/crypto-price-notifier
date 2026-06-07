@@ -4,40 +4,40 @@
   <div class="card mb-2">
     <div class="card-header">Add New Record</div>
     <div class="card-body pt-1 pb-2">
-      <form (ngSubmit)="addRecord()">
-        <div class="row">
-          <div class="form-group col col-sm-3 px-0 ps-1">
-            <label for="coin">Coin</label>
-            <input type="text" class="form-control form-control-sm" name="coin" id="coin" required
-                   [(ngModel)]="newRecord.coin" placeholder="e.g., BTC">
-          </div>
-          <div class="form-group col col-sm-3 px-0 ps-1">
-            <label for="against">Trading Pair</label>
-            <input type="text" class="form-control form-control-sm" name="against" id="against" required value="USDT"
-                   [(ngModel)]="newRecord.against" placeholder="e.g., USDT">
-          </div>
-          <div class="form-group col col-sm-2 px-0 ps-1">
-            <label for="condition">Alert Type</label>
-            <select class="form-control form-control-sm" name="condition" id="condition" required [(ngModel)]="newRecord.condition">
-              <option value="U">UP</option>
-              <option value="D">DOWN</option>
-            </select>
-          </div>
-          <div class="form-group col col-sm-3 px-0 ps-1">
-            <label for="value">Alert Value</label>
-            <input type="number" class="form-control form-control-sm" step="0.0000001" name="value" id="value" required
-                   [(ngModel)]="newRecord.value" placeholder="e.g., 50000">
-          </div>
-          <div class="form-group col col-sm-1 px-0 ps-1">
-            <button type="submit" class="btn btn-sm btn-primary btn-block mt-4">Add</button>
-          </div>
+      <form (ngSubmit)="addRecord()" class="add-record-form">
+        <div class="add-record-field">
+          <label for="coin">Coin</label>
+          <input type="text" class="form-control form-control-sm" name="coin" id="coin" required
+                 [(ngModel)]="newRecord.coin" placeholder="e.g., BTC">
+        </div>
+        <div class="add-record-field">
+          <label for="against">Trading Pair</label>
+          <input type="text" class="form-control form-control-sm" name="against" id="against" required value="USDT"
+                 [(ngModel)]="newRecord.against" placeholder="e.g., USDT">
+        </div>
+        <div class="add-record-field add-record-field--narrow">
+          <label for="condition">Alert Type</label>
+          <select class="form-control form-control-sm" name="condition" id="condition" required [(ngModel)]="newRecord.condition">
+            <option value="U">UP</option>
+            <option value="D">DOWN</option>
+          </select>
+        </div>
+        <div class="add-record-field add-record-field--value">
+          <label for="value">Alert Value</label>
+          <input type="number" class="form-control form-control-sm" step="0.0000001" name="value" id="value" required
+                 [(ngModel)]="newRecord.value" placeholder="e.g., 50000">
+        </div>
+        <div class="add-record-actions">
+          <button type="submit" class="btn btn-sm btn-primary">Add</button>
         </div>
       </form>
     </div>
   </div>
 
-  <h5 class="m-2 mb-0" style="display: inline;">Current Records</h5>
-  <span *ngIf="lastFetchDateTimeFormatted" class="last-synced">(Last synced at {{ lastFetchDateTimeFormatted }})</span>
+  <h5 class="m-4 mb-0" style="display: inline;">Current Records</h5>
+  @if (lastFetchDateTimeFormatted) {
+    <span class="last-synced">(Last synced at {{ lastFetchDateTimeFormatted }})</span>
+  }
 
   <div class="d-flex align-items-center mb-1">
     <button id="refresh-table" class="btn btn-sm btn-secondary" (click)="refreshTable()" title="Refresh table data">
